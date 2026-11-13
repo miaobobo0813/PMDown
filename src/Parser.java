@@ -5,6 +5,7 @@ public class Parser {
         List<Paragraph> result = new java.util.ArrayList<>();
         Paragraph currentParagraph = new Paragraph();
         String currentBlock = "";
+        ParagraphStyle currentParagraphStyle = null;
         for (int i = 0; i < markdown.length(); i++){
             char c = markdown.charAt(i);
             if (c == '\\' && i < markdown.length()-1){
@@ -25,6 +26,35 @@ public class Parser {
                 }
                 Block block = new Block(new LinkBlock(linkText, linkUrl), BlockStyle.LINK);
                 currentParagraph.addBlock(block);
+            } else if (c == '#'){
+                int sharpCnt = 1;
+                i++;
+                for (; i < markdown.length() && markdown.charAt(i) == '#'; i++){
+                    sharpCnt++;
+                }
+                switch (sharpCnt) {
+                    case 1:
+                        currentParagraphStyle = ParagraphStyle.H1;
+                        break;
+                    case 2:
+                        currentParagraphStyle = ParagraphStyle.H2;
+                        break;
+                    case 3:
+                        currentParagraphStyle = ParagraphStyle.H3;
+                        break;
+                    case 4:
+                        currentParagraphStyle = ParagraphStyle.H4;
+                        break;
+                    case 5:
+                        currentParagraphStyle = ParagraphStyle.H5;
+                        break;
+                    case 6:
+                        currentParagraphStyle = ParagraphStyle.H6;
+                        break;
+                    default:
+                        currentParagraphStyle = null;
+                        break;
+                }
             } else if (c == '*' || c == '~' || c == '$'){
                 if (currentBlock != ""){
                     Block block = new Block(new TextBlock(currentBlock), null);
@@ -68,10 +98,12 @@ public class Parser {
                         Block block = new Block(new TextBlock(currentBlock), null);
                         currentParagraph.addBlock(block);
                     }
-                    result.add(currentParagraph);
+                    result.add(currentParagraph.changeStyle(currentParagraphStyle));
                     currentParagraph = new Paragraph();
+                    currentBlock = "";
                     i++;
                 }
+                currentParagraphStyle = null;
              } else {
                 currentBlock += c;
             }
@@ -80,7 +112,7 @@ public class Parser {
             Block block = new Block(new TextBlock(currentBlock), null);
             currentParagraph.addBlock(block);
         }
-        result.add(currentParagraph);
+        result.add(currentParagraph.changeStyle(currentParagraphStyle));
         return result;
     }
 }

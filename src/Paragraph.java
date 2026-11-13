@@ -47,4 +47,7 @@ public class Paragraph {
     public void addBlock(Block add){
         content.add(add);
     }
+    public Paragraph changeStyle(ParagraphStyle toStyle){
+        return new Paragraph(content, toStyle);
+    }
 }

@@ -18,6 +18,7 @@ public class App {
             List<Paragraph> result = Parser.parse(markdownContent.toString());
             for (Paragraph paragraph: result){
                 System.out.println(paragraph.getHTMLContent());
+                System.out.println("<br>");
             }
         }
     }

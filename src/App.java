@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.util.List;
+
 public class App {
     public static String version = "1.0.0";
     public static void main(String[] args) throws Exception {
@@ -5,7 +8,17 @@ public class App {
             showHelp();
             return;
         } else {
-            System.out.println("Hello, World!");
+            BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(args[0]), "UTF-8"));
+            StringBuilder markdownContent = new StringBuilder();
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null){
+                markdownContent.append(currentLine).append("\n");
+            }
+            reader.close();
+            List<Paragraph> result = Parser.parse(markdownContent.toString());
+            for (Paragraph paragraph: result){
+                System.out.println(paragraph.getHTMLContent());
+            }
         }
     }
     public static void showHelp() {

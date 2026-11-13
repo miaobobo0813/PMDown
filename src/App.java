@@ -37,7 +37,7 @@ public class App {
             reader.close();
             List<Paragraph> result = Parser.parse(markdownContent.toString());
             try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.OutputStreamWriter(new java.io.FileOutputStream(outputFile), "UTF-8"))){
-                writer.write("<!DOCTYPE html>\n<html>\n<body>\n");
+                writer.write("<!DOCTYPE html>\n<head>\n<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n</head>\n<html>\n<body>\n");
                 for (Paragraph paragraph: result){
                     writer.write(paragraph.getHTMLContent());
                     writer.newLine();

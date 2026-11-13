@@ -19,7 +19,7 @@ public class Block {
             case INLINECODE:
                 return "<code>" + content.getContent()[0] + "</code>";
             case MATH:
-                return "<span class=\"math\">" + content.getContent()[0] + "</span>";
+                return "<p>\\(" + content.getContent()[0] + "\\)</p>";
             case LINK:
                 String[] linkContent = content.getContent();
                 return "<a href=\"" + linkContent[0] + "\">" + linkContent[1] + "</a>";

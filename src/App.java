@@ -49,7 +49,7 @@ public class App {
     public static void showHelp() {
         System.out.println("PMDown Version " + version);
         System.out.println();
-        System.out.println("Usage: java PMDown <file> [output] [options...]");
+        System.out.println("Usage: java -jar PMDown.jar <file> [output] [options...]");
         System.out.println();
         System.out.println("<file>");
         System.out.println("  Description");

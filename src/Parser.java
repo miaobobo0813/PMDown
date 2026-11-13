@@ -17,6 +17,7 @@ public class Parser {
                     currentParagraph.addBlock(block);
                 }
                 String linkText = "", linkUrl = "";
+                i++; // Skip the '[' character
                 for (; i < markdown.length() && markdown.charAt(i) != ']'; i++){
                     linkText += markdown.charAt(i);
                 }
@@ -24,7 +25,7 @@ public class Parser {
                 for (; i < markdown.length() && markdown.charAt(i) != ')'; i++){
                     linkUrl += markdown.charAt(i);
                 }
-                Block block = new Block(new LinkBlock(linkText, linkUrl), BlockStyle.LINK);
+                Block block = new Block(new LinkBlock(linkUrl, linkText), BlockStyle.LINK);
                 currentParagraph.addBlock(block);
             } else if (c == '#'){
                 int sharpCnt = 1;
@@ -100,10 +101,10 @@ public class Parser {
                     }
                     result.add(currentParagraph.changeStyle(currentParagraphStyle));
                     currentParagraph = new Paragraph();
+                    currentParagraphStyle = null;
                     currentBlock = "";
                     i++;
                 }
-                currentParagraphStyle = null;
              } else {
                 currentBlock += c;
             }

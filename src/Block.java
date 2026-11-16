@@ -27,7 +27,7 @@ public class Block {
             case INLINECODE:
                 return "<code>" + escapeHtml(blockContent) + "</code>";
             case MATH:
-                return "<p>\\(" + escapeHtml(blockContent) + "\\)</p>";
+                return "\\(" + escapeHtml(blockContent) + "\\)";
             case LINK:
                 String[] linkContent = content.getContent();
                 if (!isSafeLink(linkContent[0])) {

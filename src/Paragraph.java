@@ -56,4 +56,12 @@ public class Paragraph {
     public Paragraph changeStyle(ParagraphStyle toStyle){
         return new Paragraph(content, toStyle);
     }
+    public List<Block> getContent(){
+        return content;
+    }
+    public void removeEndOfContent(){
+        if (content.size() >= 1){
+            content.removeLast();
+        }
+    }
 }

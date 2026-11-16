@@ -15,7 +15,7 @@ JDK 27
 5. Use `**Text**` for bold text.
 6. Use `~~Text~~` for strikethrough text.
 7. Use `$formula$` for inline math formulas.
-8. Tables: see examples below.
+8. Tables, lists: see examples below.
 9. Paragraphs must be separated by a blank line.
 
 > [!NOTE]
@@ -30,15 +30,15 @@ JDK 27
 This is an example.
 
 This is the first line.  
-This line will appear on the same line as the previous one due to the two trailing spaces.
+This line will appear on the same line as the previous one because of the two trailing spaces.
 
 This line will appear on a new line.
 
 Table examples:
 
 | Title 1 | Title 2 |
-| --- | --- |
 | Content for Title 1 |
+| --- | --- |
 | The separator must contain at least three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
 | The cell to the right of this one is empty |
 | --- |
@@ -48,4 +48,16 @@ Table without separator row:
 | Title   | Title   |
 | Content | Content |
 | All rows in this table are rendered as plain text because no separator row is present. | All rows in this table are rendered as plain text because no separator row is present. |
+
+An ordered list:
+1.You can start an ordered list with the `1.` prefix.
+You do not need to write `2.`, `3.`, and so on on the following lines.
+Each line is treated as one list item.
+To end the list, start a new paragraph.
+
+Like this.
+
+An unordered list:
+-.You can start an unordered list with the `-.` prefix.
+The other rules are the same as for ordered lists.
 ```

@@ -35,6 +35,8 @@ public class Block {
                 }
                 return "<a href=\"" + escapeHtml(linkContent[0]) + "\">"
                         + escapeHtml(linkContent[1]) + "</a>";
+            case NEWORDERITEM:
+                return "</li><li>";
             default:
                 return escapeHtml(blockContent);
         }

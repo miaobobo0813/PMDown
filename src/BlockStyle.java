@@ -5,4 +5,5 @@ public enum BlockStyle implements MarkdownStyle {
     INLINECODE,
     MATH, 
     LINK, 
+    NEWORDERITEM, 
 }

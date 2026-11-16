@@ -112,6 +112,47 @@ public class Parser {
                 Block block = new Block(new TextBlock(currentBlock), blockStyle);
                 currentParagraph.addBlock(block);
                 currentBlock = "";
+            } else if (c == '-' || c == '1'){
+                if (i+1 < markdown.length() && markdown.charAt(i+1) == '.'){
+                    if (currentBlock != ""){
+                        Block block = new Block(new TextBlock(currentBlock), null);
+                        currentParagraph.addBlock(block);
+                    }
+                    result.add(currentParagraph.changeStyle(currentParagraphStyle));
+                    currentParagraph = new Paragraph();
+                    currentParagraphStyle = null;
+                    currentBlock = "";
+                    if (c == '-'){
+                        currentParagraphStyle = ParagraphStyle.UNORDERED_LIST;
+                    } else if (c == '1'){
+                        currentParagraphStyle = ParagraphStyle.ORDERED_LIST;
+                    }
+                    i += 2;
+                    do {
+                        int blockStart = i;
+                        while (i < markdown.length() && markdown.charAt(i) != '\n'){
+                            i++;
+                        }
+                        int blockEnd = i;
+                        String line = markdown.substring(blockStart, blockEnd);
+                        List<Paragraph> lineParagraphs = parse(line);
+                        if (lineParagraphs.size() >= 1){
+                            Paragraph lineBlocks = lineParagraphs.get(0);
+                            for (Block block : lineBlocks.getContent()) {
+                                currentParagraph.addBlock(block);
+                            }
+                            currentParagraph.addBlock(new Block(new TextBlock(""), BlockStyle.NEWORDERITEM));
+                        }
+                        i++;
+                    } while (i < markdown.length() && markdown.charAt(i) != '\n');
+                    currentParagraph.removeEndOfContent();
+                    result.add(currentParagraph.changeStyle(currentParagraphStyle));
+                    currentParagraph = new Paragraph();
+                    currentParagraphStyle = null;
+                    currentBlock = "";
+                } else {
+                    currentBlock += c;
+                }
             } else if (c == '\n'){ 
                 if (i+1 < markdown.length() && (markdown.charAt(i+1) == '\n')){
                     if (currentBlock != ""){

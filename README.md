@@ -30,7 +30,7 @@ JDK 27
 This is an example.
 
 This is the first line.  
-This line will appear on the same line as the previous one because of the two trailing spaces.
+This line will appear on the same line as the previous one.
 
 This line will appear on a new line.
 
@@ -39,7 +39,7 @@ Table examples:
 | Title 1 | Title 2 |
 | Content for Title 1 |
 | --- | --- |
-| The separator must contain at least three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
+| The separator must contain just right three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
 | The cell to the right of this one is empty |
 | --- |
 | Content after the second separator row is ignored. |
@@ -61,3 +61,7 @@ An unordered list:
 -.You can start an unordered list with the `-.` prefix.
 The other rules are the same as for ordered lists.
 ```
+
+## License
+
+MIT License, see [LICENSE](LICENSE.md)

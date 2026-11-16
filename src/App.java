@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 public class App {
-    public static String version = "1.0.0";
+    public static String version = "1.1.0";
     public static void main(String[] args) throws Exception {
         if ((args.length > 0 && (args[0].equals("-h") || args[0].equals("--help"))) || args.length == 0) {
             showHelp();
@@ -37,12 +37,23 @@ public class App {
             reader.close();
             List<Paragraph> result = Parser.parse(markdownContent.toString());
             try (java.io.BufferedWriter writer = new java.io.BufferedWriter(new java.io.OutputStreamWriter(new java.io.FileOutputStream(outputFile), "UTF-8"))){
-                writer.write("<!DOCTYPE html>\n<head>\n<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n</head>\n<html>\n<body>\n");
+                writer.write("<!DOCTYPE html>\n");
+                writer.write("<html>\n");
+                writer.write("<head>\n");
+                writer.write("<meta charset=\"UTF-8\">\n");
+                writer.write("<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n");
+                writer.write("<style>\n");
+                writer.write("table { border-collapse: collapse; }\n");
+                writer.write("td, th { border: 1px solid #ddd; padding: 8px; }\n");
+                writer.write("</style>\n");
+                writer.write("</head>\n");
+                writer.write("<body>\n");
                 for (Paragraph paragraph: result){
                     writer.write(paragraph.getHTMLContent());
                     writer.newLine();
                 }
-                writer.write("</body>\n</html>");
+                writer.write("</body>\n");
+                writer.write("</html>");
             }
         }
     }

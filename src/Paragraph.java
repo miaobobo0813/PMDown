@@ -12,6 +12,9 @@ public class Paragraph {
         this.style = null;
     }
     public String getHTMLContent() {
+        if (content.size() == 1 && content.get(0).isTableBlock()) {
+            return content.get(0).getHTMLContent();
+        }
         StringBuilder html = new StringBuilder();
         for (Block block : content) {
             html.append(block.getHTMLContent());
@@ -46,6 +49,9 @@ public class Paragraph {
     }
     public void addBlock(Block add){
         content.add(add);
+    }
+    public boolean hasContent() {
+        return !content.isEmpty();
     }
     public Paragraph changeStyle(ParagraphStyle toStyle){
         return new Paragraph(content, toStyle);

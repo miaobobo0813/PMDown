@@ -1,30 +1,49 @@
 # PMDown
 
-A customized Markdown interpreter that converts a Markdown file into an HTML file.
+PMDown is a lightweight Markdown parser that converts a Markdown file into an HTML file.
 
-## Toolchain
+## Requirements
 
 JDK 27
 
+## Usage
+
+Build the application with:
+
+```powershell
+.\build.ps1
+```
+
+Convert a file with:
+
+```text
+java -jar PMDown.jar <input-file> [output-file]
+```
+
+If you omit the output file, PMDown creates an HTML file with the same base name in the input file's directory. If the output path does not already have an `.html` extension (case-insensitive), PMDown appends it.
+
+To display the help message, run `java -jar PMDown.jar --help` or `java -jar PMDown.jar -h`.
+
 ## Supported Markdown Syntax
 
-1. Use `\` to escape the following character, rendering it as plain text.
-2. Use `#`, `##`, `###`, etc. to define headings (H1, H2, H3, etc.).
-3. Use `[Display Text](URL)` to create a link.
+1. Use `\` to escape the next character. Any character can be escaped.
+2. Use one to six consecutive `#` characters to set a heading level from H1 to H6.
+3. Use `[Display Text](URL)` to create a link. Relative links are allowed. Absolute links support the `http:`, `https:`, and `mailto:` schemes; unsupported schemes and invalid URLs are rendered as plain text.
 4. Use `*Text*` for italic text.
 5. Use `**Text**` for bold text.
 6. Use `~~Text~~` for strikethrough text.
-7. Use `$formula$` for inline math formulas.
-8. Tables, lists: see examples below.
-9. Paragraphs must be separated by a blank line.
+7. Use `$formula$` for an inline math formula. Formulas are rendered with MathJax using the `\(formula\)` delimiter format.
+8. Use `` `code` `` for inline code.
+9. Use triple backticks to create a fenced code block. An optional language label on the opening fence is displayed above the code; syntax highlighting is not applied.
+10. Use tables and lists as shown in the examples below. Inline Markdown formatting is supported in table cells.
+11. Separate paragraphs with a blank line.
 
 > [!NOTE]
-> 1. Links only support the `http:`, `https:`, and `mailto:` protocols. Unsupported protocols will be rendered as plain text.
-> 2. Math formulas are rendered using MathJax. For formula syntax, please visit the [MathJax documentation](https://docs.mathjax.org/en/latest/input/tex/index.html). The `$formula$` syntax in Markdown is converted to the `\(formula\)` delimiter format used by MathJax.
+> PMDown uses a custom Markdown grammar. Use the `.pmdown` extension for files written in this grammar to distinguish them from standard Markdown files.
 
 ## Examples
 
-```markdown
+````pmdown
 # Example
 
 This is an example.
@@ -32,7 +51,7 @@ This is an example.
 This is the first line.  
 This line will appear on the same line as the previous one.
 
-This line will appear on a new line.
+This line will appear in a new paragraph.
 
 Table examples:
 
@@ -52,16 +71,24 @@ Table without separator row:
 An ordered list:
 1.You can start an ordered list with the `1.` prefix.
 You do not need to write `2.`, `3.`, and so on on the following lines.
-Each line is treated as one list item.
+Each line is treated as a separate list item.
 To end the list, start a new paragraph.
 
 Like this.
 
 An unordered list:
 -.You can start an unordered list with the `-.` prefix.
-The other rules are the same as for ordered lists.
+The same continuation rules apply as for ordered lists.
+
+Here is some `inline code`, followed by a Java code block:
+```java
+if ((args.length > 0 && (args[0].equals("-h") || args[0].equals("--help"))) || args.length == 0) {
+    showHelp();
+    return;
+}
 ```
+````
 
 ## License
 
-MIT License, see [LICENSE](LICENSE.md)
+MIT License. See [LICENSE](LICENSE.md).

@@ -44,7 +44,7 @@ public class TableBlock implements ContentBlock {
             html.append("<tr>");
             for (int column = 0; column < tableWidth; column++) {
                 html.append('<').append(cellTag).append('>')
-                        .append(Block.escapeHtml(content[row * tableWidth + column]))
+                        .append(content[row * tableWidth + column])
                         .append("</").append(cellTag).append('>');
             }
             html.append("</tr>");

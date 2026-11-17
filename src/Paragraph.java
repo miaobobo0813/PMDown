@@ -15,6 +15,11 @@ public class Paragraph {
         if (content.size() == 1 && content.get(0).isTableBlock()) {
             return content.get(0).getHTMLContent();
         }
+        if (style == ParagraphStyle.CODEBLOCK){
+            if (content.size() >= 2){
+                return "<strong>"+content.get(0).getHTMLContent()+"</strong><pre><code>"+content.get(1).getHTMLContent()+"</code></pre>";
+            }
+        }
         StringBuilder html = new StringBuilder();
         for (Block block : content) {
             html.append(block.getHTMLContent());

@@ -34,6 +34,7 @@ public class Parser {
                 if (currentBlock != ""){
                     Block block = new Block(new TextBlock(currentBlock), null);
                     currentParagraph.addBlock(block);
+                    currentBlock = "";
                 }
                 String linkText = "", linkUrl = "";
                 i++; // Skip the '[' character
@@ -44,6 +45,7 @@ public class Parser {
                 for (; i < markdown.length() && markdown.charAt(i) != ')'; i++){
                     linkUrl += markdown.charAt(i);
                 }
+                i++;
                 Block block = new Block(new LinkBlock(linkUrl, linkText), BlockStyle.LINK);
                 currentParagraph.addBlock(block);
             } else if (c == '#'){
@@ -165,6 +167,61 @@ public class Parser {
                     currentBlock = "";
                     i++;
                 }
+             } else if (c == '`'){
+                if (currentBlock != ""){
+                    Block block = new Block(new TextBlock(currentBlock), null);
+                    currentParagraph.addBlock(block);
+                }
+                currentBlock = "";
+                if (i+1 < markdown.length() && markdown.charAt(i+1) == '`' && i+2 < markdown.length() && markdown.charAt(i+2) == '`'){
+                    result.add(currentParagraph.changeStyle(currentParagraphStyle));
+                    currentParagraph = new Paragraph();
+                    currentParagraphStyle = null;
+                    currentBlock = "";
+                    i += 3;
+                    for (; i < markdown.length() && markdown.charAt(i) != '\n'; i++){
+                        currentBlock += markdown.charAt(i);
+                    }
+                    currentParagraph.addBlock(new Block(new TextBlock(currentBlock), null));
+                    currentBlock = "";
+                    i++;
+                    for (; i < markdown.length(); i++){
+                        if (markdown.charAt(i) == '\\'){
+                            if (i+1 < markdown.length()){
+                                currentBlock += markdown.charAt(i+1);
+                                i++;
+                            }
+                        } else {
+                            currentBlock += markdown.charAt(i);
+                        }
+                        if (i+1 < markdown.length() && markdown.charAt(i+1) == '`' &&
+                            i+2 < markdown.length() && markdown.charAt(i+2) == '`' &&
+                            i+3 < markdown.length() && markdown.charAt(i+3) == '`'){
+                                break;
+                            }
+                    }
+                    i += 3;
+                    Block block = new Block(new TextBlock(currentBlock), null);
+                    currentParagraph.addBlock(block);
+                    currentBlock = "";
+                    result.add(currentParagraph.changeStyle(ParagraphStyle.CODEBLOCK));
+                    currentParagraph = new Paragraph();
+                } else {
+                    i++;
+                    for (; i < markdown.length() && markdown.charAt(i) != '`'; i++){
+                        if (markdown.charAt(i) == '\\'){
+                            if (i+1 < markdown.length()){
+                                currentBlock += markdown.charAt(i+1);
+                                i++;
+                            }
+                        } else {
+                            currentBlock += markdown.charAt(i);
+                        }
+                    }
+                    Block block = new Block(new TextBlock(currentBlock), BlockStyle.INLINECODE);
+                    currentParagraph.addBlock(block);
+                    currentBlock = "";
+                }
              } else {
                 currentBlock += c;
             }
@@ -228,6 +285,15 @@ public class Parser {
         String[] content = new String[rows.size() * tableWidth];
         for (int row = 0; row < rows.size(); row++) {
             System.arraycopy(rows.get(row), 0, content, row * tableWidth, tableWidth);
+        }
+        for (int cell = 0; cell < content.length; cell++) {
+            StringBuilder renderedCell = new StringBuilder();
+            for (Paragraph paragraph : parse(content[cell])) {
+                for (Block block : paragraph.getContent()) {
+                    renderedCell.append(block.getHTMLContent());
+                }
+            }
+            content[cell] = renderedCell.toString();
         }
         return new TableParseResult(
                 new TableBlock(content, tableWidth, tableTitleHeight),

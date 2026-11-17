@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 public class App {
-    public static String version = "1.2.0";
+    public static String version = "1.3.0";
     public static void main(String[] args) throws Exception {
         if ((args.length > 0 && (args[0].equals("-h") || args[0].equals("--help"))) || args.length == 0) {
             showHelp();
@@ -43,8 +43,7 @@ public class App {
                 writer.write("<meta charset=\"UTF-8\">\n");
                 writer.write("<script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script>\n");
                 writer.write("<style>\n");
-                writer.write("table { border-collapse: collapse; }\n");
-                writer.write("td, th { border: 1px solid #ddd; padding: 8px; }\n");
+                writer.write(cssTemplate);
                 writer.write("</style>\n");
                 writer.write("</head>\n");
                 writer.write("<body>\n");
@@ -94,4 +93,28 @@ public class App {
         System.out.println("  0: Program exit normaly");
         System.out.println("  1: Program cannot find specified file");
     }
+    private static String cssTemplate = """
+    table { border-collapse: collapse; }
+    td, th { border: 1px solid #ddd; padding: 8px; }
+    code { background-color: #f2f2f2; }
+    pre code { background: none; }
+    pre { background-color: #f2f2f2; overflow-x: auto; }
+    strong:has(+ pre) { 
+        display: block; 
+        background: #e8e8e8; 
+        padding: .4em 1em; 
+        border: 1px solid #ddd; 
+        border-bottom: none; 
+        margin-bottom: 0; 
+    }
+    strong:has(+ pre) + pre {
+        margin-top: 0; 
+        background: #f2f2f2; 
+        border: 1px solid #ddd; 
+        padding: 1em; 
+        overflow-x: auto; 
+        margin-bottom: 1em; 
+    }
+    strong:has(+ pre) + pre code { background: none; padding: 0; }
+    """;
 }

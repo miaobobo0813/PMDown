@@ -1,0 +1,93 @@
+# PMDown
+
+PMDown is a lightweight Markdown parser that converts a Markdown file into an HTML file.
+
+## Requirements
+
+JDK 27
+
+## Usage
+
+Build the application with:
+
+```powershell
+.\build.ps1
+```
+
+Convert a file with:
+
+```text
+java -jar PMDown.jar <input-file> [output-file]
+```
+
+If you omit the output file, PMDown creates an HTML file with the same base name in the input file's directory. If the output path does not already have an `.html` extension (case-insensitive), PMDown appends it.
+
+To display the help message, run `java -jar PMDown.jar --help` or `java -jar PMDown.jar -h`.
+
+## Supported Markdown Syntax
+
+1.Use `\\` to escape the next character. Any character can be escaped.
+Use one to six consecutive `#` characters to set a heading level from H1 to H6.
+Use `[Display Text](URL)` to create a link. Relative links are allowed. Absolute links support the `http:`, `https:`, and `mailto:` schemes; unsupported schemes and invalid URLs are rendered as plain text.
+Use `*Text*` for italic text.
+Use `**Text**` for bold text.
+Use `~~Text~~` for strikethrough text.
+Use `$formula$` for an inline math formula. Formulas are rendered with MathJax using the `\(formula\)` delimiter format.
+Use `\`code\`` for inline code.
+Use triple backticks to create a fenced code block. An optional language label on the opening fence is displayed above the code; syntax highlighting is not applied.
+Use tables and lists as shown in the examples below. Inline Markdown formatting is supported in table cells.
+Separate paragraphs with a blank line.
+
+PMDown uses a custom Markdown grammar. Use the `.pmdown` extension for files written in this grammar to distinguish them from standard Markdown files.
+
+## Examples
+
+```pmdown
+# Example
+
+This is an example.
+
+This is the first line.  
+This line will appear on the same line as the previous one.
+
+This line will appear in a new paragraph.
+
+Table examples:
+
+| Title 1 | Title 2 |
+| Content for Title 1 |
+| --- | --- |
+| The separator must contain just right three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
+| The cell to the right of this one is empty |
+| --- |
+| Content after the second separator row is ignored. |
+
+Table without separator row:
+| Title   | Title   |
+| Content | Content |
+| All rows in this table are rendered as plain text because no separator row is present. | All rows in this table are rendered as plain text because no separator row is present. |
+
+An ordered list:
+1.You can start an ordered list with the `1.` prefix.
+You do not need to write `2.`, `3.`, and so on on the following lines.
+Each line is treated as a separate list item.
+To end the list, start a new paragraph.
+
+Like this.
+
+An unordered list:
+-.You can start an unordered list with the `-.` prefix.
+The same continuation rules apply as for ordered lists.
+
+Here is some `inline code`, followed by a Java code block:
+\`\`\`java
+if ((args.length > 0 && (args[0].equals("-h") || args[0].equals("--help"))) || args.length == 0) {
+    showHelp();
+    return;
+}
+\`\`\`
+```
+
+## License
+
+MIT License. See [LICENSE](LICENSE.md).

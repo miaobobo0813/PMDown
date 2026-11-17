@@ -4,7 +4,7 @@ PMDown is a lightweight Markdown parser that converts a Markdown file into an HT
 
 ## Requirements
 
-JDK 27
+Tested with JDK 25; JDK 15+ should work in theory.
 
 ## Usage
 
@@ -57,12 +57,12 @@ Table examples:
 | Title 1 | Title 2 |
 | Content for Title 1 |
 | --- | --- |
-| The separator must contain just right three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
+| The separator must contain exactly three hyphens (`---`). Missing cells are rendered as empty; extra cells are ignored. | This cell is valid | Extra cells like this one are ignored |
 | The cell to the right of this one is empty |
 | --- |
 | Content after the second separator row is ignored. |
 
-Table without separator row:
+Table without a separator row:
 | Title   | Title   |
 | Content | Content |
 | All rows in this table are rendered as plain text because no separator row is present. | All rows in this table are rendered as plain text because no separator row is present. |
